@@ -1,0 +1,247 @@
+:root {
+  --primary-color: #4a90e2;      /* 主色调：用于文件夹图标、按钮等 */
+  --hover-color: #f0f7ff;        /* 悬停颜色：用于项目悬停背景 */
+  --selected-color: #e3f2fd;     /* 选中颜色：用于选中项目背景 */
+  --text-color: #333;            /* 文本颜色 */
+  --border-color: #eee;          /* 边框颜色 */
+}
+
+.bookmark-modal-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: flex-end;
+  z-index: 999999;
+}
+
+.bookmark-modal {
+  width: 400px;
+  height: 100vh;
+  background: white;
+  box-shadow: -2px 0 15px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.2s ease;
+  position: relative;
+  user-select: none;
+  transition: width 0.1s ease;
+}
+
+.container {
+  padding: 20px;
+  height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+#folder-tree {
+  flex: 1;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.bookmark-item {
+  padding: 8px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  margin: 2px 0;
+  position: relative;
+  color: #333;
+}
+
+.bookmark-item:hover {
+  background-color: #f0f7ff;
+  transform: translateX(4px);
+}
+
+.bookmark-item.selected {
+  background-color: #e3f2fd;
+  font-weight: 500;
+  position: relative;
+}
+
+.bookmark-item.selected::after {
+  content: '✓';
+  position: absolute;
+  right: 10px;
+  color: #4a90e2;
+}
+
+.folder-icon {
+  margin-right: 8px;
+  font-size: 12px;
+  color: #666;
+  transition: all 0.2s ease;
+  display: inline-block;
+  width: 16px;
+  text-align: center;
+  line-height: 14px;
+  cursor: pointer;
+  position: relative;
+  top: -1px;
+}
+
+.favicon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  flex-shrink: 0;
+  vertical-align: middle;
+  object-fit: contain;
+  background-color: transparent;
+  border-radius: 2px;
+}
+
+.item-title {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 2px 0;
+  color: inherit;
+  line-height: 16px;
+}
+
+.child-container {
+  margin-left: 20px;
+  display: none;
+  transition: all 0.2s ease;
+}
+
+.child-container.expanded {
+  display: block;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding: 10px 0;
+}
+
+.left-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.actions button {
+  padding: 8px 15px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.actions button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.actions button:not(:disabled):hover {
+  background-color: #357abd;
+}
+
+.resize-handle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  cursor: col-resize;
+  background: transparent;
+}
+
+.resize-handle:hover,
+.bookmark-modal.resizing .resize-handle {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.bookmark-item.dragging {
+  opacity: 0.5;
+  background-color: #f5f5f5;
+  position: relative;
+  z-index: 1000;
+}
+
+.bookmark-item.drag-over {
+  background-color: #e3f2fd;
+  position: relative;
+}
+
+.bookmark-item.drag-over::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px dashed #4a90e2;
+  pointer-events: none;
+}
+
+.drag-indicator {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #4a90e2;
+  pointer-events: none;
+  z-index: 1001;
+}
+
+.drag-indicator.above {
+  top: 0;
+  transform: translateY(-1px);
+}
+
+.drag-indicator.below {
+  bottom: 0;
+  transform: translateY(1px);
+}
+
+.drag-indicator::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  background-color: #4a90e2;
+  border-radius: 50%;
+  transform: translate(-2px, -50%);
+}
+
+.actions button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.actions button:not(.disabled):hover {
+  background-color: #357abd;
+} 
