@@ -125,17 +125,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 // 监听快捷键命令
 chrome.commands.onCommand.addListener(async (command) => {
-  console.log('Command received:', command);
   if (command === "save-bookmark") {
     try {
       const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
       if (!tab || !tab.url || tab.url.startsWith('chrome://')) {
-        console.error('Invalid tab:', tab);
         return;
       }
       await handleCommand(tab.id);
     } catch (error) {
-      console.error('Error handling command:', error);
     }
   }else if (command === "delete-bookmark") {
     try {
@@ -144,14 +141,11 @@ chrome.commands.onCommand.addListener(async (command) => {
         return;
       }
       const results = await chrome.bookmarks.search({ url: tab.url });
-      console.log(results)
       if (results.length > 0) {
-        await chrome.runtime.sendMessage({ action: 'delete-bookmark', id: results[0].id });
+        await chrome.bookmarks.remove(results[0].id);
       } else {
-        console.error('No bookmark found for the current URL');
       }
     } catch (error) {
-      console.error('Error handling command:', error);
     }
   }
 });
@@ -160,12 +154,10 @@ chrome.commands.onCommand.addListener(async (command) => {
 chrome.action.onClicked.addListener(async (tab) => {
   console.log('Extension icon clicked for tab:', tab.id);
   if (!tab.url || tab.url.startsWith('chrome://')) {
-    console.error('Invalid tab for bookmark');
     return;
   }
   try {
     await handleCommand(tab.id);
   } catch (error) {
-    console.error('Error handling click:', error);
   }
 }); 
