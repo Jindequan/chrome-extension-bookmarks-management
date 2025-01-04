@@ -1,4 +1,4 @@
-# Geeba Bookmark Manager
+# Geebar Bookmark Manager
 
 Bookmark Manager is a Chrome extension that allows you to manage your bookmarks efficiently. You can save, delete, and organize your bookmarks using keyboard shortcuts or by clicking the extension icon.
 
