@@ -1,9 +1,13 @@
 :root {
-  --primary-color: #4a90e2;      /* 主色调：用于文件夹图标、按钮等 */
-  --hover-color: #f0f7ff;        /* 悬停颜色：用于项目悬停背景 */
-  --selected-color: #e3f2fd;     /* 选中颜色：用于选中项目背景 */
-  --text-color: #333;            /* 文本颜色 */
-  --border-color: #eee;          /* 边框颜色 */
+  --sidebar-width: 20%;
+  --header-height: 60px;
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #242424;
+  --text-primary: #e0e0e0;
+  --text-secondary: #888;
+  --accent-color: #98c379;
+  --border-color: #333;
+  --hover-bg: #2c2c2c;
 }
 
 .bookmark-modal-overlay {
@@ -12,7 +16,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: flex-end;
   z-index: 999999;
@@ -21,8 +25,8 @@
 .bookmark-modal {
   width: 400px;
   height: 100vh;
-  background: white;
-  box-shadow: -2px 0 15px rgba(0, 0, 0, 0.15);
+  background: var(--bg-primary);
+  box-shadow: -2px 0 15px rgba(0, 0, 0, 0.3);
   animation: slideIn 0.2s ease;
   position: relative;
   user-select: none;
@@ -40,7 +44,7 @@
 #folder-tree {
   flex: 1;
   overflow-y: auto;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   margin: 10px 0;
   padding: 10px;
 }
@@ -54,16 +58,16 @@
   border-radius: 4px;
   margin: 2px 0;
   position: relative;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .bookmark-item:hover {
-  background-color: #f0f7ff;
+  background-color: var(--hover-bg);
   transform: translateX(4px);
 }
 
 .bookmark-item.selected {
-  background-color: #e3f2fd;
+  background-color: var(--bg-secondary);
   font-weight: 500;
   position: relative;
 }
@@ -72,13 +76,13 @@
   content: '✓';
   position: absolute;
   right: 10px;
-  color: #4a90e2;
+  color: var(--accent-color);
 }
 
 .folder-icon {
   margin-right: 8px;
   font-size: 12px;
-  color: #666;
+  color: var(--accent-color);
   transition: all 0.2s ease;
   display: inline-block;
   width: 16px;
@@ -134,8 +138,8 @@
 
 .actions button {
   padding: 8px 15px;
-  background-color: #4a90e2;
-  color: white;
+  background-color: var(--accent-color);
+  color: var(--text-primary);
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -143,13 +147,13 @@
 }
 
 .actions button:disabled {
-  background-color: #ccc;
+  background-color: var(--bg-secondary);
   cursor: not-allowed;
   opacity: 0.5;
 }
 
 .actions button:not(:disabled):hover {
-  background-color: #357abd;
+  background-color: var(--hover-bg);
 }
 
 .resize-handle {
@@ -164,7 +168,7 @@
 
 .resize-handle:hover,
 .bookmark-modal.resizing .resize-handle {
-  background: rgba(0, 0, 0, 0.1);
+  background: var(--border-color);
 }
 
 @keyframes slideIn {
@@ -178,19 +182,19 @@
 
 h2 {
   margin: 0;
-  font-size: 18px;
-  color: #333;
+  font-size: 14px;
+  color: var(--text-primary);
 }
 
 .bookmark-item.dragging {
   opacity: 0.5;
-  background-color: #f5f5f5;
+  background-color: var(--bg-secondary);
   position: relative;
   z-index: 1000;
 }
 
 .bookmark-item.drag-over {
-  background-color: #e3f2fd;
+  background-color: var(--bg-secondary);
   position: relative;
 }
 
@@ -201,7 +205,7 @@ h2 {
   left: 0;
   right: 0;
   bottom: 0;
-  border: 2px dashed #4a90e2;
+  border: 2px dashed var(--accent-color);
   pointer-events: none;
 }
 
@@ -210,7 +214,7 @@ h2 {
   left: 0;
   right: 0;
   height: 2px;
-  background-color: #4a90e2;
+  background-color: var(--accent-color);
   pointer-events: none;
   z-index: 1001;
 }
@@ -232,7 +236,7 @@ h2 {
   top: 50%;
   width: 6px;
   height: 6px;
-  background-color: #4a90e2;
+  background-color: var(--accent-color);
   border-radius: 50%;
   transform: translate(-2px, -50%);
 }
@@ -243,5 +247,187 @@ h2 {
 }
 
 .actions button:not(.disabled):hover {
-  background-color: #357abd;
+  background-color: var(--hover-bg);
+}
+
+.folder-selector-modal {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--bg-primary);
+  border-radius: 6px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+  width: 600px;
+  max-width: 90vw;
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  border: 1px solid var(--border-color);
+}
+
+.folder-selector-header {
+  padding: 12px 16px;
+  background-color: var(--bg-secondary);
+  border-radius: 6px 6px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.folder-selector-header h2 {
+  color: var(--text-primary);
+  margin: 0;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.folder-selector-close {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0;
+}
+
+.folder-selector-close:hover {
+  color: var(--accent-color);
+}
+
+.folder-selector-content {
+  padding: 16px;
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: var(--bg-primary);
+}
+
+.folder-selector-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.folder-selector-content::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+.folder-selector-content::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.folder-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: var(--text-primary);
+  border-radius: 4px;
+  margin: 2px 0;
+}
+
+.folder-item:hover {
+  background-color: var(--hover-bg);
+}
+
+.folder-item.selected {
+  background-color: var(--bg-secondary);
+}
+
+.folder-item i {
+  margin-right: 8px;
+  color: var(--accent-color);
+}
+
+.folder-actions {
+  padding: 12px 16px;
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  border-radius: 0 0 6px 6px;
+}
+
+.folder-actions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.folder-actions button.primary {
+  background-color: var(--accent-color);
+  color: var(--bg-primary);
+}
+
+.folder-actions button.primary:hover {
+  background-color: var(--hover-bg);
+}
+
+.folder-actions button.secondary {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.folder-actions button.secondary:hover {
+  background-color: var(--hover-bg);
+}
+
+.new-folder-input {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 8px 12px;
+  border-radius: 4px;
+  width: 100%;
+  margin-top: 8px;
+  font-family: inherit;
+}
+
+.new-folder-input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+}
+
+/* 添加终端风格的路径显示 */
+.current-path {
+  color: var(--accent-color);
+  font-size: 14px;
+  padding: 8px 12px;
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.current-path::before {
+  content: "➜";
+  color: var(--text-secondary);
+  margin-right: 8px;
+}
+
+/* 添加文件夹图标样式 */
+.folder-icon {
+  color: var(--accent-color);
+  margin-right: 8px;
+}
+
+/* 添加动画效果 */
+.folder-selector-modal {
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 } 
